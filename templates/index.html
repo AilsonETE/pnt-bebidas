@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h2>Conheça Nossos Produtos</h2>
+<div class="jumbotron">
+
+
+    <div class="jumbo-imagem">
+        <img src="https://elmachips.com.br/_next/image?url=%2Fassets%2Fimages%2Fcard_home_2.png&w=640&q=100"
+            alt="Imagem descritiva">
+    </div>
+    <div class="jumbo-conteudo">
+        <h1>Título do Jumbotron</h1>
+        <p>Texto grande e chamativo para captar a atenção do usuário.</p>
+        <a href="#" class="btn-jumbo">Botão de Ação</a>
+    </div>
+</div>
+
+
+<h2 id="produtos" class="titulo-secao">Produtos em Destaque</h2>
+
+<main class="container-cards">
+    <div class="card">
+        <img src="static/img/cachacas.webp">
+        <h1>Cachaça</h1>
+        <p>Categoria de cachaças</p>
+        <a href="#" class="btn-primario">Saiba Mais</a>
+    </div>
+
+    <div class="card">
+        <img src="static/img/cervejas.jpg">
+        <h1>Cerveja</h1>
+        <p>Categoria de Cerveja</p>
+        <a href="#" class="btn-secundario">Saiba Mais</a>
+    </div>
+
+    <div class="card">
+        <img src="static/img/tenquilas.png">
+        <h1>Tenquilas</h1>
+        <p>Categoria de tenquilas</p>
+        <a href="#" class="btn-primario">Saiba Mais</a>
+    </div>
+
+    <div class="card">
+        <img src="static/img/whiskys.jpg">
+        <h1>whisky</h1>
+        <p>Categoria de whisky</p>
+        <a href="#" class="btn-secundario">Saiba Mais</a>
+    </div>
+</main>
+</div>
+
+{% endblock %}
