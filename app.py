@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 
 app = Flask(__name__)
 
@@ -10,6 +10,12 @@ def index():
 @app.route("/admin")
 def dashboard():
     return render_template('admin/dashboard.html')
+
+@app.route("/listarcategoria")
+def listarCategoria():
+    return render_template('admin/listar_categoria.html')
+
+
 
 
 app.run(debug=True)

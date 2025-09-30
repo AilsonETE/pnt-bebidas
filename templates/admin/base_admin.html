@@ -29,7 +29,7 @@
                         </a>
                     </li>
                     <li class="nav-item d-none d-md-block">
-                        <a href="{{ url_for('main.index') }}" class="nav-link">Início</a>
+                        <a href="#" class="nav-link">Início</a>
                     </li>
                 </ul>
 
@@ -62,10 +62,10 @@
         <!-- SIDEBAR -->
         <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
             <div class="sidebar-brand">
-                <a href="{{ url_for('main.index') }}" class="brand-link">
+                <a href="#" class="brand-link">
                     <img src="{{ url_for('static', filename='dist/assets/img/AdminLTELogo.png') }}" alt="Logo"
                         class="brand-image opacity-75 shadow" />
-                    <span class="brand-text fw-light">Biblioteca</span>
+                    <span class="brand-text fw-light">Vendas</span>
                 </a>
             </div>
 
@@ -74,15 +74,15 @@
                     <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu">
                         <li class="nav-header">MENU</li>
                         <li class="nav-item">
-                            <a href="{{ url_for('main.index') }}" class="nav-link">
+                            <a href="{{url_for('listarCategoria')}}" class="nav-link">
                                 <i class="nav-icon bi bi-book"></i>
-                                <p>Listar Livros</p>
+                                <p>Listar Categoria</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url_for('main.novo_livro') }}" class="nav-link">
-                                <i class="nav-icon bi bi-plus-circle"></i>
-                                <p>Novo Livro</p>
+                            <a href="#" class="nav-link">
+                                <i class="bi bi-box-seam-fill"></i>
+                                <p>Listar Produtos</p>
                             </a>
                         </li>
                     </ul>
