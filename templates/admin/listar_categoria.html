@@ -24,24 +24,18 @@
                         <th>ID</th>
                         <th>Título</th>
                         <th>Categoria</th>
-                        <th>Imagem</th>
 
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
 
+                    {% for i in categorias %}
                     <tr>
-                        <td>ID</td>
-                        <td>Titulo</td>
-                        <td>Categoria</td>
-                        <td>
 
-
-
-                            <span class="text-muted">--</span>
-
-                        </td>
+                        <td>{{ i['id'] }}</td>
+                        <td>{{ i['nome']}}</td>
+                        <td>{{i['ativo'] }}</td>
 
                         <td>
                             <a href="#" class="btn btn-sm btn-info">Detalhes</a>
@@ -53,8 +47,10 @@
                             </form>
 
                         </td>
-                    </tr>
 
+
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

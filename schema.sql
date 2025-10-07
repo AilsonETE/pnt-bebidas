@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS produto;
 DROP TABLE IF EXISTS categoria;
+DROP TABLE IF EXISTS usuario;
 
 
 CREATE TABLE categoria(
@@ -29,3 +30,8 @@ CREATE TABLE usuario (
     ativo boolean
 
 );
+
+insert into categoria(nome, descricao, ativo)
+values('Vodka','Orloff', 'True'),
+      ('Coca Cola', 'Lata', 'True')      
+
