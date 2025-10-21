@@ -43,9 +43,30 @@ def cadastrarCategoria():
     return render_template('admin/cadastrar_categoria.html')
     
     
-@app.route("/editarcategoria")
-def editarCategoria():
-    return render_template('admin/editar_categoria.html')
+@app.route("/editarcategoria/<int:id>", methods=['GET','POST'])
+def editarCategoria(id):
+    conn = conexao()
+    categoria = conn.execute('select * from categoria where id=?', (id,)).fetchone()
+    if request.method == 'POST':
+        nome_categoria = request.form.get('nome_categoria')
+        descricao = request.form.get('descricao')
+        imagem = request.files.get('imagem')              
+        imagem_base64 = base64.b64encode(imagem.read()).decode('utf-8')
+        if nome_categoria:
+            conn = conexao()
+            if imagem:
+                conn.execute('UPDATE categoria SET nome=?, descricao=?, imagem=? WHERE id=?',   
+                (nome_categoria, descricao, imagem_base64, id,))           
+            else:
+                conn.execute('UPDATE categoria SET nome=?, descricao=? WHERE id=?',   
+                (nome_categoria, descricao, id,)) 
+
+            conn.commit()
+            conn.close()
+            return redirect(url_for('listarCategoria'))
+
+    return render_template('admin/editar_categoria.html',
+                            categoria=categoria )
 
 
 

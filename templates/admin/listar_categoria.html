@@ -23,8 +23,8 @@
                     <tr>
                         <th>ID</th>
                         <th>Título</th>
-                        <th>Categoria</th>
-
+                        <th>Imagem</th>
+                        <th>Ativo</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -35,11 +35,14 @@
 
                         <td>{{ i['id'] }}</td>
                         <td>{{ i['nome']}}</td>
+                        <td><img src="data:image/jpeg;base64,{{i['imagem'] }}" width="50"></td>
+
                         <td>{{i['ativo'] }}</td>
 
                         <td>
                             <a href="#" class="btn btn-sm btn-info">Detalhes</a>
-                            <a href="#" class="btn btn-sm btn-warning">Editar</a>
+                            <a href="{{url_for('editarCategoria',id=i['id'])}}"
+                                class="btn btn-sm btn-warning">Editar</a>
 
                             <form action="#" method="POST" style="display:inline;"
                                 onsubmit="return confirm('Deseja excluir este livro?')">

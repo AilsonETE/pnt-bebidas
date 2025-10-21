@@ -1,31 +1,41 @@
 {% extends 'admin/base_admin.html' %}
-{% block title %} Listar categoria{% endblock %}
+{% block title %} Editar Categoria{% endblock %}
 
 {% block content %}
 
 <h3 style="background-color: rgb(198, 197, 197);">
-    Cadastrar Categoria</h3>
+    Editar Categoria</h3>
 
 <div class="container">
 
     <form method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="nome_categoria">Nome da Categoria:</label>
-            <input type="text" class="form-control" id="nome_categoria" name="nome_categoria" required>
+            <input type="text" class="form-control" id="nome_categoria" value="{{categoria.nome}}" name="nome_categoria"
+                required>
         </div>
+
         <div class="form-group">
             <label for="descricao">Descrição:</label>
-            <input type="text" class="form-control" id="descricao" name="descricao" required>
+            <input type="text" class="form-control" id="descricao" value="{{categoria.descricao}}" name="descricao"
+                required>
         </div>
         <div class=" form-group">
             <label for="ativo">Ativo:</label>
-            <input type="text" class="form-control" id="ativo" name="ativo">
+            <input type="text" class="form-control" id="ativo" name="ativo" value="{{categoria.ativo}}">
         </div>
 
-        <div class=" form-group">
-            <label for="imagem">Imagem:</label>
-            <input type="file" class="form-control" id="imagem" name="imagem">
+        <div class="form-group">
+            <label for="imagem_atual">Imagem Atual:</label>
+            <img src="data:image/jpeg;base64,{{ categoria['imagem'] }}" alt="Imagem Atual" style="width: 200px;">
         </div>
+
+        <div class="form-group">
+            <label for="imagem">Nova imagem:</label>
+            <input type="file" class="form-control" id="imagem" name="imagem">
+
+        </div>
+
         <br>
         <button type="submit" class="btn btn-primary mb-2">Cadastrar</button>
 
