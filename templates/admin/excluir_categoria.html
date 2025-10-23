@@ -1,0 +1,21 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %} Excluir Categoria{% endblock %}
+
+{% block content %}
+
+<h3 style="background-color: rgb(198, 197, 197);">
+    Excluir categoria</h3>
+
+<div class="container">
+
+    <p>Tem certeza de que deseja excluir a categoria " {{ categoria['nome'] }} "</p>
+    <div>
+        <form method="POST">
+            <button type="submit" class="btn btn-primary  my-2">Confirmar Exclusão</button>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -21,9 +21,14 @@
                 required>
         </div>
         <div class=" form-group">
-            <label for="ativo">Ativo:</label>
-            <input type="text" class="form-control" id="ativo" name="ativo" value="{{categoria.ativo}}">
+            <label for="ativo" class="form-label">Status</label>
+            <select name="ativo" class="form-select">
+                <option value="True" {% if categoria.ativo=='True' %}selected{% endif %}>Ativo</option>
+                <option value="False" {% if categoria.ativo=='False' %}selected{% endif %}>Inativo</option>
+            </select>
         </div>
+
+
 
         <div class="form-group">
             <label for="imagem_atual">Imagem Atual:</label>

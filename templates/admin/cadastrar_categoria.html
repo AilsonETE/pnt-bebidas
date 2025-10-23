@@ -17,10 +17,15 @@
             <label for="descricao">Descrição:</label>
             <input type="text" class="form-control" id="descricao" name="descricao" required>
         </div>
+
         <div class=" form-group">
-            <label for="ativo">Ativo:</label>
-            <input type="text" class="form-control" id="ativo" name="ativo">
+            <label for="ativo" id="ativo" class="form-label">Status</label>
+            <select class="form-select" name="ativo">
+                <option value="True">Ativo</option>
+                <option value="False">Inativo</option>
+            </select>
         </div>
+
 
         <div class=" form-group">
             <label for="imagem">Imagem:</label>

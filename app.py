@@ -31,12 +31,13 @@ def cadastrarCategoria():
     if request.method == 'POST':
         nome_categoria = request.form.get('nome_categoria')
         descricao = request.form.get('descricao')
+        ativo = request.form.get('ativo')
         imagem = request.files.get('imagem')              
         imagem_base64 = base64.b64encode(imagem.read()).decode('utf-8')
         if nome_categoria:
             conn = conexao()
-            conn.execute('INSERT INTO categoria (nome, descricao, imagem ) VALUES (?, ?, ?)',
-                (nome_categoria, descricao, imagem_base64))            
+            conn.execute('INSERT INTO categoria (nome, descricao, ativo, imagem ) VALUES (?, ?, ?, ?)',
+                (nome_categoria, descricao, ativo, imagem_base64))            
             conn.commit()
             conn.close()
             return redirect(url_for('listarCategoria'))        
@@ -50,16 +51,17 @@ def editarCategoria(id):
     if request.method == 'POST':
         nome_categoria = request.form.get('nome_categoria')
         descricao = request.form.get('descricao')
+        ativo = request.form.get('ativo')
         imagem = request.files.get('imagem')              
         imagem_base64 = base64.b64encode(imagem.read()).decode('utf-8')
         if nome_categoria:
             conn = conexao()
             if imagem:
-                conn.execute('UPDATE categoria SET nome=?, descricao=?, imagem=? WHERE id=?',   
-                (nome_categoria, descricao, imagem_base64, id,))           
+                conn.execute('UPDATE categoria SET nome=?, descricao=?, ativo=?, imagem=? WHERE id=?',   
+                (nome_categoria, descricao, ativo, imagem_base64, id,))           
             else:
-                conn.execute('UPDATE categoria SET nome=?, descricao=? WHERE id=?',   
-                (nome_categoria, descricao, id,)) 
+                conn.execute('UPDATE categoria SET nome=?, descricao=?, ativo=? WHERE id=?',   
+                (nome_categoria, descricao, ativo, id,)) 
 
             conn.commit()
             conn.close()
@@ -68,7 +70,19 @@ def editarCategoria(id):
     return render_template('admin/editar_categoria.html',
                             categoria=categoria )
 
-
+# Rota para excluir categoria
+@app.route("/excluir_categoria/<int:id>", methods=['GET', 'POST'])
+def excluirCategoria(id):
+    conn = conexao()
+    categoria = conn.execute('SELECT * FROM categoria WHERE id = ?', (id,)).fetchone()
+    
+    if request.method == 'POST':
+        conn.execute('DELETE FROM categoria WHERE id = ?', (id,))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listarCategoria'))    
+    conn.close()
+    return render_template('admin/excluir_categoria.html', categoria = categoria )
 
 
 app.run(debug=True)
