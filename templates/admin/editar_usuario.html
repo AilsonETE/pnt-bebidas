@@ -1,0 +1,35 @@
+{% extends 'admin/base_admin.html' %}
+{% block title %} Editar Usuario{% endblock %}
+
+{% block content %}
+
+<h3 style="background-color: rgb(198, 197, 197);">
+    Editar Usuario</h3>
+
+<div class="container">
+
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="nome">Nome:</label>
+            <input type="text" class="form-control" id="nome" value="{{usuario.nome}}" name="nome" required>
+        </div>
+
+        <div class="form-group">
+            <label for="senha">Senha:</label>
+            <input type="password" class="form-control" id="senha" value="{{usuario.senha}}" name="senha" required>
+        </div>
+        <div class=" form-group">
+            <label for="ativo" class="form-label">Status</label>
+            <select name="ativo" class="form-select">
+                <option value="True" {% if usuario.ativo=='True' %}selected{% endif %}>Ativo</option>
+                <option value="False" {% if usuario.ativo=='False' %}selected{% endif %}>Inativo</option>
+            </select>
+        </div>
+
+        <br>
+        <button type="submit" class="btn btn-primary mb-2">Cadastrar</button>
+
+    </form>
+
+</div>
+{% endblock %}

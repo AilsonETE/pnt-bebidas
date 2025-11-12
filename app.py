@@ -1,13 +1,27 @@
 from flask import Flask, render_template, url_for, redirect, request
+from flask_bcrypt import Bcrypt
 import sqlite3
 import base64
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 
 def conexao():
     conn = sqlite3.connect("database.db")
     conn.row_factory = sqlite3.Row
     return conn
 
+"""def usuario_inicial(username, password):    
+    password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+    conn = conexao()
+    cursor = conn.cursor()
+    try:
+        cursor.execute('INSERT INTO usuario (username, password_hash) VALUES (?, ?)', (username, password_hash))
+        conn.commit()
+        print(f"Usuário '{username}' criado com sucesso.")
+    except sqlite3.IntegrityError:
+        print(f"Usuário '{username}' já existe.")
+    conn.close()
+usuario_inicial("admin", "senha123") """
 
 @app.route("/")
 def index():
@@ -84,5 +98,67 @@ def excluirCategoria(id):
     conn.close()
     return render_template('admin/excluir_categoria.html', categoria = categoria )
 
+@app.route("/login")
+def login():
+    
+    return render_template('admin/login.html')
+
+@app.route("/listarusuario")
+def listarUsuario():
+    conn = conexao()
+    usuario = conn.execute('select * from usuario')
+    return render_template('admin/listar_usuario.html',
+                           usuario = usuario )
+
+
+@app.route("/cadastrarusuario", methods=['GET','POST'])
+def cadastrarUsuario():
+    if request.method == 'POST':
+        nome = request.form.get('nome')        
+        senha = request.form.get('senha')                  
+        senha_cript = bcrypt.generate_password_hash(senha).decode('utf-8')
+        
+        if nome:
+            conn = conexao()
+            conn.execute('INSERT INTO usuario (nome, senha ) VALUES (?, ?)',
+                (nome, senha_cript))            
+            conn.commit()
+            conn.close()
+            return redirect(url_for('listarUsuario'))        
+    return render_template('admin/cadastrar_usuario.html')
+
+
+@app.route("/editarusuario/<int:id>", methods=['GET','POST'])
+def editarUsuario(id):
+    conn = conexao()
+    usuario = conn.execute('select * from usuario where id=?', (id,)).fetchone()
+    if request.method == 'POST':
+        nome = request.form.get('nome')
+        senha = request.form.get('senha')
+        senha_cript = bcrypt.generate_password_hash(senha).decode('utf-8')
+        
+        if nome:            
+            conn.execute('UPDATE usuario SET nome=?, senha=? WHERE id=?',   
+                (nome,  senha_cript, id,))   
+            
+            conn.commit()
+            conn.close()
+            return redirect(url_for('listarUsuario'))
+    return render_template('admin/editar_usuario.html',
+                            usuario=usuario )
+
+
+@app.route("/excluir_usuario/<int:id>", methods=['GET', 'POST'])
+def excluirUsuario(id):
+    conn = conexao()
+    usuario = conn.execute('SELECT * FROM usuario WHERE id = ?', (id,)).fetchone()
+    
+    if request.method == 'POST':
+        conn.execute('DELETE FROM usuario WHERE id = ?', (id,))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('listarUsuario'))    
+    conn.close()
+    return render_template('admin/excluir_usuario.html', usuario = usuario )
 
 app.run(debug=True)
