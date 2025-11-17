@@ -1,14 +1,26 @@
-from flask import Flask, render_template, url_for, redirect, request
+from flask import Flask, render_template, url_for, redirect, request, flash
 from flask_bcrypt import Bcrypt
 import sqlite3
 import base64
+from functools import wraps
+
 app = Flask(__name__)
+app.secret_key = "uma_chave_muito_secreta_e_aleatoria"
 bcrypt = Bcrypt(app)
 
 def conexao():
     conn = sqlite3.connect("database.db")
     conn.row_factory = sqlite3.Row
     return conn
+
+def login_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        if 'usuario' not in session:
+            flash("Você precisa fazer login primeiro.")
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return wrapper
 
 """def usuario_inicial(username, password):    
     password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -31,8 +43,8 @@ def index():
 def dashboard():
     return render_template('admin/dashboard.html')
     
-
 @app.route("/listarcategoria")
+@login_required
 def listarCategoria():
     conn = conexao()
     categoria = conn.execute('select * from categoria')
@@ -98,10 +110,7 @@ def excluirCategoria(id):
     conn.close()
     return render_template('admin/excluir_categoria.html', categoria = categoria )
 
-@app.route("/login")
-def login():
-    
-    return render_template('admin/login.html')
+
 
 @app.route("/listarusuario")
 def listarUsuario():
@@ -160,5 +169,43 @@ def excluirUsuario(id):
         return redirect(url_for('listarUsuario'))    
     conn.close()
     return render_template('admin/excluir_usuario.html', usuario = usuario )
+
+from flask_bcrypt import Bcrypt
+bcrypt = Bcrypt(app)
+
+from flask import session
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        nome = request.form.get('nome')
+        senha = request.form.get('senha')
+
+        if nome and senha:
+            conn = conexao()
+
+            
+            usuario = conn.execute(
+                'SELECT nome, senha FROM usuario WHERE nome=?',
+                (nome,)
+            ).fetchone()
+
+            if usuario:
+                hashed_password = usuario['senha']
+
+                # senha digitada com o hash do banco
+                if bcrypt.check_password_hash(hashed_password, senha):
+                    session['usuario'] = usuario['nome']  
+                    return redirect(url_for('dashboard'))
+                else:
+                    print("Senha incorreta")
+            else:
+                print("Usuário não encontrado")
+
+    return render_template('admin/login.html')
+
+@app.route("/logout")
+def logout():
+    session.pop('usuario', None)
+    return redirect(url_for('login'))
 
 app.run(debug=True)
